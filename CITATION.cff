@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use HapLens, please cite this repository and the exact version or commit used."
+type: software
+title: "HapLens: multi-scale haplotype association for family-structured populations"
+version: 0.1.0
+date-released: 2026-11-20
+license: MIT
+repository-code: https://github.com/shenlinyong/HapLens
+authors:
+  - family-names: Shen
+    given-names: Linyong
+    affiliation: Northwest A&F University
+    email: shenlinyong@nwafu.edu.cn
+  - family-names: Zhou
+    given-names: Yuxin
+    affiliation: Northwest A&F University
+  - family-names: Fan
+    given-names: Shengxin
+    affiliation: Northwest A&F University
+  - family-names: Zhang
+    given-names: Meihan
+    affiliation: Northwest A&F University
+  - family-names: Guo
+    given-names: Jingyao
+    affiliation: Northwest A&F University
+  - family-names: Wei
+    given-names: Zehui
+    affiliation: Northwest A&F University
+  - family-names: Yang
+    given-names: Xiaojun
+    affiliation: Northwest A&F University
+abstract: >-
+  Mixed-model haplotype association at the window and gene scales for family-structured
+  populations: a calibrated null model with a genomic relationship matrix
+  and a dam effect, regional relatedness-kernel and haplotype-class tests combined by
+  ACAT, functional haplotypes with matched neutral control haplotypes, and resampling,
+  conditional and power analyses.
+keywords:
+  - haplotype association
+  - mixed model
+  - kernel association test
+  - livestock genomics
