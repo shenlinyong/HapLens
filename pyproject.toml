@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "haplens"
-version = "0.1.0"
-description = "HapLens: multi-scale haplotype association for family-structured populations"
+version = "1.0.0"
+description = "HapLens: multi-scale haplotype association and local background-conditioned specificity framework for family-structured populations"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -13,7 +13,7 @@ license-files = ["LICENSE"]
 authors = [{name = "Linyong Shen (申林用)"}]
 dependencies = ["numpy>=1.24", "scipy>=1.10", "pandas>=2.0"]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "Intended Audience :: Science/Research",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Bio-Informatics",

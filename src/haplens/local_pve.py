@@ -28,7 +28,7 @@ def main(argv=None):
     ap.add_argument(
         "--max-snp",
         type=int,
-        default=300,
+        default=0,
         help="maximum number of SNPs per window (random subset above this)",
     )
     ap.add_argument("--seed", type=int, default=3, help="random seed")
@@ -63,7 +63,7 @@ def main(argv=None):
         f = np.maximum(g, 0).sum(1) / np.maximum(2 * ok.sum(1), 1)
         maf = np.minimum(f, 1 - f)
         good = np.nonzero((ok.mean(1) >= 0.9) & (maf >= a.maf))[0]
-        if len(good) > a.max_snp:
+        if a.max_snp > 0 and len(good) > a.max_snp:
             good = np.sort(rng.choice(good, a.max_snp, replace=False))
         X = np.where(g[good] >= 0, g[good], np.nan).astype(float)
         mu = np.nanmean(X, 1, keepdims=True)

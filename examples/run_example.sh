@@ -1,26 +1,17 @@
 #!/bin/bash
-# Window and gene layers on a simulated population of 480 birds (about 10 s).
+# End-to-end HapLens v1.0.0 example on a simulated structured population (480 birds, ~15 s).
 set -euo pipefail
 out=${1:-example}
 d=$out/data
 
 haplens simulate --out "$d"
 
-# gene layer
-haplens build-genes --bfile "$d/ex" --ann "$d/ann_variants.tsv" --genes "$d/ann_genes.tsv" \
-  --pheno "$d/pheno.csv" --tier A --out "$out/genesA"
-haplens test-genes --fh "$out/genesA_fh.npz" --pheno "$d/pheno.csv" --rel "$d/grm" \
-  --out "$out/res_genes" --perm 10 --perm-genes 20
+# One-command pipeline (HapLens-O windows + gene-level Bi-LBC specificity test)
+haplens run --bfile "$d/ex" --pheno "$d/pheno.csv" --rel "$d/grm" \
+  --traits T0,T1 --chroms 1 --window-size 50000 --perm 5 \
+  --ann "$d/ann_variants.tsv" --genes "$d/ann_genes.tsv" --tier A --out "$out/run_out"
 
-# window layer
-haplens build-windows --bfile "$d/ex" --blocks "$d/windows.det" --pheno "$d/pheno.csv" \
-  --max-tags 4 --min-n 30 --out "$out/win"
-haplens test-genes --fh "$out/win_fh.npz" --pheno "$d/pheno.csv" --rel "$d/grm" --out "$out/res_win"
-haplens test-windows --bfile "$d/ex" --windows "$d/windows.det" --pheno "$d/pheno.csv" \
-  --rel "$d/grm" --chroms 1 --perm 5 --out "$out/kern"
-haplens combine-windows --kern "$out/kern" --cls "$out/res_win" --out "$out/report"
-
-# single-SNP scan and a conditional window test
+# Single-SNP scan and conditional dissection
 haplens snp-scan --bfile "$d/ex" --pheno "$d/pheno.csv" --rel "$d/grm" --traits T1 \
   --regions 1:100000-400000 --out "$out/snp"
 haplens conditional --bfile "$d/ex" --pheno "$d/pheno.csv" --rel "$d/grm" --traits T1 \

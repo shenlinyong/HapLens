@@ -3,7 +3,7 @@
 import argparse, os, numpy as np, pandas as pd
 from scipy import linalg
 from haplens.model import reml_fit
-from haplens.kernel import pval_wchi2
+from haplens.kernel import dual_eigvalsh, pval_wchi2
 
 
 def main(argv=None):
@@ -33,7 +33,7 @@ def main(argv=None):
     ap.add_argument(
         "--max-snp",
         type=int,
-        default=300,
+        default=0,
         help="maximum number of SNPs per window (random subset above this)",
     )
     ap.add_argument("--seed", type=int, default=11, help="random seed")
@@ -90,7 +90,7 @@ def main(argv=None):
         r0 = yt - Xt @ beta
         s2 = float(r0 @ r0) / (len(idx) - Xt.shape[1])
         B = Zt - Xt @ (np.linalg.pinv(Xt) @ Zt)
-        lam = np.linalg.eigvalsh(B.T @ B)
+        lam = dual_eigvalsh(B)
         return pval_wchi2(float(((Zt.T @ r0) ** 2).sum()) / s2, lam)
 
     wins = [w for w in a.windows.split(",") if w]
@@ -99,7 +99,7 @@ def main(argv=None):
         c, r_ = w.split(":")
         s, e = map(int, r_.split("-"))
         pos, g, maf = region_geno(c, s, e)
-        if len(pos) > a.max_snp:
+        if a.max_snp > 0 and len(pos) > a.max_snp:
             sel = np.sort(rng.choice(len(pos), a.max_snp, replace=False))
             pos, g = (pos[sel], g[sel])
         WZ[w] = (pos, g)
